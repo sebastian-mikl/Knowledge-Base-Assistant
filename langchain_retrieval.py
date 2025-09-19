@@ -1,7 +1,7 @@
 import os
-from langchain.document_loaders import DirectoryLoader, TextLoader
+from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain.retrievers import EnsembleRetriever, MultiQueryRetriever
 from langchain_community.retrievers import BM25Retriever
 from config import get_embeddings, get_llm, ARTICLE_DIR, VECTOR_STORE_PATH, CHUNK_SIZE, CHUNK_OVERLAP
@@ -48,7 +48,11 @@ class LangChainRetrieval:
         """Create or load FAISS vector store"""
         if os.path.exists(VECTOR_STORE_PATH) and not force_recreate:
             print("Loading existing vector store...")
-            self.vectorstore = FAISS.load_local(VECTOR_STORE_PATH, self.embeddings)
+            self.vectorstore = FAISS.load_local(
+                VECTOR_STORE_PATH,
+                self.embeddings,
+                allow_dangerous_deserialization=True  # Safe since we created this file
+            )
         else:
             print("Creating new vector store...")
             chunks = self.create_chunks()

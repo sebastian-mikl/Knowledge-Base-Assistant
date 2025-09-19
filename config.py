@@ -1,5 +1,5 @@
 import os
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_anthropic import ChatAnthropic
 from dotenv import load_dotenv
 
@@ -24,9 +24,12 @@ def get_embeddings():
 def get_llm():
     """Get Claude LLM instance"""
     return ChatAnthropic(
-        api_key=os.getenv("CLAUDE_API_KEY"),
-        temperature=0
+        model="claude-3-5-sonnet-20241022",
+        anthropic_api_key=os.getenv("CLAUDE_API_KEY"),
+        temperature=0,
+        max_tokens=1000
     )
+
 def get_telegram_token():
     """Get Telegram bot token"""
     return os.getenv("TELEGRAM_TOKEN")
