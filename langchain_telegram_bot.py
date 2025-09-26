@@ -91,7 +91,7 @@ Commands:
             user_input = message.text
 
             # Send initial "thinking" message
-            sent_msg = self.bot.send_message(chat_id, "🤔 Searching knowledge base...")
+            sent_msg = self.bot.send_message(chat_id, "Thinking..")
             message_id = sent_msg.message_id
 
             # Start streaming response in background
